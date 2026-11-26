@@ -2,6 +2,12 @@
 
 Standalone architecture for Project 2, based on the provided specifications.
 
+<!-- OVERVIEW:START -->
+| # | Component | Project file | Topics covered |
+|---|-----------|--------------|----------------|
+| 1 | Architecture | [Project 2 Architecture](architecture.png) | Terraform, Ansible, Jenkins, Docker, Kubernetes, AWS EC2 |
+<!-- OVERVIEW:END -->
+
 ## Architecture
 
 ![Project 2 architecture](architecture.png)
@@ -21,6 +27,16 @@ Standalone architecture for Project 2, based on the provided specifications.
 - **Test:** Deploys to the test server and runs application tests.
 - **Production:** Monthly release on the 25th; deploys to Kubernetes with 2 replicas and exposes the application through NodePort `30008`.
 
-## Image
+## Project files
 
-The architecture image is stored in this repository as [`architecture.png`](architecture.png) and displayed above.
+<!-- PROJECT-FILES:START -->
+| File / Folder | What's inside |
+|---------------|---------------|
+| [architecture.png](architecture.png) | Project 2 architecture diagram |
+<!-- PROJECT-FILES:END -->
+
+## Adding files to the project
+
+Both tables above update automatically. When you add, delete or rename a file or folder, the [Update README tables](.github/workflows/update-readme.yml) workflow adds or removes its linked row in both tables. Edits to existing files don't touch the README.
+
+New rows get an automatic description. To change one, edit the text in the table; the workflow keeps your wording.
