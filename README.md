@@ -32,7 +32,7 @@ Standalone architecture for Project 2, based on the provided specifications.
 <!-- PROJECT-FILES:START -->
 | File / Folder | What's inside |
 |---------------|---------------|
-| [architecture.png](architecture.png) | Project 2 architecture diagram |
+| 🖼️ [architecture.png](architecture.png) | Project 2 architecture diagram |
 <!-- PROJECT-FILES:END -->
 
 ## Adding files to the project
