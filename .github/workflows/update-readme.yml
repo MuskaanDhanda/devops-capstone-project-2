@@ -1,0 +1,57 @@
+name: Update README tables
+
+# Runs only when a push adds, deletes or renames a file/folder.
+# Editing an existing file does not change the README.
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - README.md
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for new, deleted or renamed files
+        id: changes
+        run: |
+          BEFORE="${{ github.event.before }}"
+          if [ "${{ github.event_name }}" != "push" ] || [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          CHANGED=$(git diff --name-only --diff-filter=ADR "$BEFORE" "${{ github.sha }}" -- . ':(exclude)README.md')
+          if [ -n "$CHANGED" ]; then
+            echo "Files added/removed/renamed:"
+            echo "$CHANGED"
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No files or folders were added or removed - nothing to do"
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rebuild README tables
+        if: steps.changes.outputs.found == 'true'
+        run: python3 .github/scripts/update_readme.py
+
+      - name: Commit README if it changed
+        if: steps.changes.outputs.found == 'true'
+        run: |
+          if git diff --quiet -- README.md; then
+            echo "README.md is already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "docs: update README tables for new files"
+          git push
